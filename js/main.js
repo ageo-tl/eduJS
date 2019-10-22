@@ -4,7 +4,7 @@ let money = 123,
     income = "завод",
     addExpenses = "водяра, дефки, патефон",
     deposit = false,
-    mission = 456.78,
+    mission = 45678,
     period = 2;
 
 // alert("Любой текст");
@@ -237,11 +237,13 @@ let accumulatedMonth = getAccumulatedMonth(
                             requiredSum2
                           )
                         );
+console.log('accumulatedMonth: ', accumulatedMonth);      // Отладочное
 
 let getTargetMonth = function() {
   // Возвращает период (количество месяцев), за который будет достигнута
   // цель по накоплению
-  return Math.ceil(mission / budgetMonth);
+  // return Math.ceil(mission / budgetMonth);
+  return Math.ceil(mission / accumulatedMonth);
 };
 
 
