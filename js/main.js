@@ -212,3 +212,33 @@ let getStatusIncome = function() {
   }
 };
 console.log('getStatusIncome(): ', getStatusIncome());
+
+
+/* Создать следующие функции:
+     — getExpensesMonth. Функция возвращает сумму всех расходов за месяц
+     — getAccumulatedMonth. Функция возвращает Накопления за месяц
+     (Доходы минус расходы). Результат сохранить в переменную accumulatedMonth
+     — getTargetMonth. Подсчитывает за какой период будет достигнута цель,
+     зная результат месячного накопления и возвращает результат
+*/
+let getExpensesMonth = function(expense1, expense2) {
+  // возвращает сумму всех расходов за месяц
+  return expense1 + expense2;
+};
+let getAccumulatedMonth = function(income, expenses) {
+  // возвращает Накопления за месяц
+  return income + expenses;
+};
+let accumulatedMonth = getAccumulatedMonth(
+                          income,
+                          getExpensesMonth(
+                            requiredSum1,
+                            requiredSum2
+                          )
+                        );
+
+let getTargetMonth = function() {
+  // Возвращает период (количество месяцев), за который будет достигнута
+  // цель по накоплению
+  return Math.ceil(mission / budgetMonth);
+};
