@@ -1,55 +1,27 @@
 "use strict";
 
 
-const ruweek = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"];
-const enweek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+/* Создайте функцию, которая принимает 1 аргумент (название произвольное)
+   — Если как аргумент передана не строка - функция оповещает
+   об этом пользователя
+   — В полученной (как аргумент) строке функция должна убрать
+   все пробелы в начале и в конце
+   — Если строка более 30 знаков - то после 30го символа часть текста
+   скрывается и вместо них появляются три точки (...)
+*/
 
-let lang = confirm("Значение переменной 'lang'. Нажмите 'Да/ОК', если 'ru', 'Нет/Отмена', если 'en'") ? "ru" : "en";
-
-let ifweek;
-if (lang === "ru") {
-  ifweek = ruweek;
-} else {
-  ifweek = enweek;
-}
-
-let swweek;
-switch (true) {
-  case (lang === "ru"):
-    swweek = ruweek;
-  case (lang === "en"):
-    swweek = enweek;
-}
-
-let arr = {
-  "ru" : ruweek,
-  "en" : enweek,
+let myFunc = function(arg) {
+  if (typeof arg !== "string") {
+    alert(`В функцию передана не строка: ${typeof arg}, ${arg} `);
+    return;
+  }
+  let res = arg.trim();
+  if (res.length > 30) {
+    res = res.slice(0, 29) + "...";
+  }
+  return res;
 };
-let arweek = arr[lang];
 
-document.body.innerHTML = `
-    <h1>IF</h1>
-    <h2>${ifweek}</h2>
-    <hr>
-    <h1>SWITCH</h1>
-    <h2>${swweek}</h2>
-    <hr>
-    <h1>ARRAY</h1>
-    <h2>${arweek}</h2>
-  `;
-
-
-
-/* У нас есть переменная namePerson. Если значение этой переменной “Артем” то вывести в консоль “директор”,
-если значение “Максим” то вывести в консоль “преподаватель”, с любым другим значением вывести в консоль “студент” */
-// Решить задачу с помощью нескольких тернарных операторов, без использования if или switch
-
-let namePerson = prompt("Введите имя:");
-namePerson = namePerson.toLowerCase();
-const msg =
-  (namePerson === "артем" || namePerson === "артём")
-    ? "директор"
-    : namePerson === "максим"
-      ? "преподаватель"
-      : "студент";
-console.log(msg);
+console.log('myFunc("Короткая строка"): ', myFunc("Короткая строка"));
+console.log('myFunc("Очень длинная строка, которая больше 30 символов"): ', myFunc("Очень длинная строка, которая больше 30 символов"));
+console.log('myFunc(123): ', myFunc(123));
