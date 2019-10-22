@@ -212,6 +212,7 @@ let getStatusIncome = function() {
   }
 };
 console.log('getStatusIncome(): ', getStatusIncome());
+console.log();
 
 
 /* Создать следующие функции:
@@ -248,8 +249,8 @@ let getTargetMonth = function() {
 // — Оставить функции showTypeof и getStatusIncome, которые написали в уроке
 // — Накопления за период
 // — Cрок достижения цели в месяцах (значение округлить в меньшую сторону)
-console.log("Накопления за период:");
-console.log('accumulatedMonth: ', accumulatedMonth);
-console.log();
-console.log("Cрок достижения цели в месяцах:");
+console.log("Cрок (период) достижения цели в месяцах:");
 console.log('Math.floor(getTargetMonth()): ', Math.floor(getTargetMonth()));
+console.log();
+console.log("Накопления за период:");
+console.log('Math.floor(getTargetMonth()) * accumulatedMonth: ', Math.floor(getTargetMonth()) * accumulatedMonth);
