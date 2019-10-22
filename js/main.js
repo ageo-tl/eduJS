@@ -124,10 +124,16 @@ console.log();
 deposit = confirm("Есть ли у вас депозит в банке?");
 
 // Вывести в консоль типы данных money, income, deposit
-console.log("Типы данных значений переменных:");
-console.log('typeof money: ', typeof money);
-console.log('typeof income: ', typeof income);
-console.log('typeof deposit: ', typeof deposit);
+let showTypeOf = function(data) {
+  console.log(data, typeof data);
+};
+console.log("Типы данных значений переменных 'money', 'income' и 'deposit':");
+// console.log('typeof money: ', typeof money);
+// console.log('typeof income: ', typeof income);
+// console.log('typeof deposit: ', typeof deposit);
+showTypeOf(money);
+showTypeOf(income);
+showTypeOf(deposit);
 console.log();
 
 // Спросить у пользователя по 2 раза каждый вопрос и записать ответы в переменные
@@ -187,3 +193,22 @@ switch (true) {
   case (budgetDay === 0):
     console.log("Вы попали на границы между уровнями дохода. Определитесь уже...");
 }
+
+let getStatusIncome = function() {
+  // возвращает значение уровня дохода
+  switch (true) {
+    case (budgetDay > 800):
+      return "Высокий уровень дохода";
+    case (budgetDay > 300):
+      return "Средний уровень дохода";
+    case (budgetDay > 0):
+      return "Низкий уровень дохода";
+    case (budgetDay < 0):
+      return "Что-то пошло не так";
+    case (budgetDay === 800):
+    case (budgetDay === 300):
+    case (budgetDay === 0):
+      return "Вы попали на границы между уровнями дохода. Определитесь уже...";
+  }
+};
+console.log('getStatusIncome(): ', getStatusIncome());
