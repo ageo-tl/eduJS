@@ -59,12 +59,13 @@ function requestNumber(q) {
   return +res;
 }
 
-function requestValue(q) {
+function requestValue(q, d) {
   // запрашивает у пользователя значение (строку)
   let res = "";
   let tmp = "";
+  if (d === undefined) { d = ""; }
   while (true) {
-    res = prompt(q + tmp);
+    res = prompt(q + tmp, d);
 
     if (res === null) {
       break;
@@ -113,19 +114,38 @@ console.log();
 //     “Какие обязательные ежемесячные расходы у вас есть?”
 //     “Во сколько это обойдется?”
 // в итоге 4 вопроса и 4 переменных
-let requiredName1,
-    requiredSum1,
-    requiredName2,
-    requiredSum2;
+// let requiredName1,
+//     requiredSum1,
+//     requiredName2,
+//     requiredSum2;
 
-requiredName1 = requestValue("Какие обязательные ежемесячные расходы у вас есть?");
-requiredSum1 = requestNumber("Во сколько это обойдется?");
-requiredName2 = requestValue("Какие обязательные ежемесячные расходы у вас есть?");
-requiredSum2 = requestNumber("Во сколько это обойдется?");
+// requiredName1 = requestValue("Какие обязательные ежемесячные расходы у вас есть?");
+// requiredSum1 = requestNumber("Во сколько это обойдется?");
+// requiredName2 = requestValue("Какие обязательные ежемесячные расходы у вас есть?");
+// requiredSum2 = requestNumber("Во сколько это обойдется?");
+
+// Валидация данных, которые мы получаем на вопрос 'Во сколько это обойдется?’, в функции getExpensesMonth
+let requiredName1,
+    requiredName2;
+
+let getExpensesMonth = function() {
+  let sum = 0;
+
+  for (let i = 0; i < 2; i++) {
+    if (!i) {
+      requiredName1 = requestValue("Какие обязательные ежемесячные расходы у вас есть?", "Квартплата");
+    } else {
+      requiredName2 = requestValue("Какие обязательные ежемесячные расходы у вас есть?", "Бензин");
+    }
+    sum += requestNumber("Во сколько это обойдется?");
+  }
+  return sum;
+};
+let expenseAmount = getExpensesMonth();
 
 /* Вычислить доход за месяц, учитывая обязательные расходы,
 сохранить в переменную budgetMonth и вывести результат в консоль*/
-let budgetMonth = money - requiredSum1 - requiredSum2;
+let budgetMonth = money - expenseAmount;
 
 /* Поправить budgetDay учитывая бюджет на месяц, а не месячный доход.
 Вывести в консоль округлив в меньшую сторону (методы объекта Math в помощь) */
@@ -159,20 +179,17 @@ console.log();
      — getTargetMonth. Подсчитывает за какой период будет достигнута цель,
      зная результат месячного накопления и возвращает результат
 */
-let getExpensesMonth = function(expense1, expense2) {
-  // возвращает сумму всех расходов за месяц
-  return expense1 + expense2;
-};
+// let getExpensesMonth = function(expense1, expense2) {
+//   // возвращает сумму всех расходов за месяц
+//   return expense1 + expense2;
+// };
 let getAccumulatedMonth = function(money, expenses) {
   // возвращает Накопления за месяц
   return money + expenses;
 };
 let accumulatedMonth = getAccumulatedMonth(
                           money,
-                          getExpensesMonth(
-                            requiredSum1,
-                            requiredSum2
-                          )
+                          expenseAmount
                         );
 console.log('accumulatedMonth: ', accumulatedMonth);      // Отладочное
 
