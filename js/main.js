@@ -205,8 +205,12 @@ let getTargetMonth = function() {
 // — Оставить функции showTypeof и getStatusIncome, которые написали в уроке
 // — Накопления за период
 // — Cрок достижения цели в месяцах (значение округлить в меньшую сторону)
+if (getTargetMonth() >= 0) {
 console.log("Cрок (период) достижения цели в месяцах:");
 console.log('Math.floor(getTargetMonth()): ', Math.floor(getTargetMonth()));
+} else {
+  console.log("Цель не будет достигнута");
+}
 console.log();
 console.log("Накопления за период:");
 console.log('period * accumulatedMonth: ', period * accumulatedMonth);
