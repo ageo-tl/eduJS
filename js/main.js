@@ -8,12 +8,22 @@ let money = 123,
     period = 2;
 
 
+// Функция start c циклом do while
+let start = function() {
+  do {
+    money = prompt("Ваш месячный доход?", 50000);
+  } while (isNaN(money) || money === "" || money === null);
+};
+start();
+
+
 /* - Объявить переменную budgetDay и присвоить дневной бюджет (доход за месяц / 30),
 вывести в консоль результат и остаток от деления */
 let budgetDay = 100/30;
 
 
 function requestNumber(q) {
+  // запрашивает у пользователя число
   let res = 0;
   let tmp = "";
 
@@ -50,6 +60,7 @@ function requestNumber(q) {
 }
 
 function requestValue(q) {
+  // запрашивает у пользователя значение (строку)
   let res = "";
   let tmp = "";
   while (true) {
