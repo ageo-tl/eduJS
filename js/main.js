@@ -255,4 +255,4 @@ console.log("Cрок (период) достижения цели в месяц�
 console.log('Math.floor(getTargetMonth()): ', Math.floor(getTargetMonth()));
 console.log();
 console.log("Накопления за период:");
-console.log('Math.floor(getTargetMonth()) * accumulatedMonth: ', Math.floor(getTargetMonth()) * accumulatedMonth);
+console.log('period * accumulatedMonth: ', period * accumulatedMonth);
