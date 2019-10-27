@@ -78,14 +78,27 @@ let appData = {
 };
 
 appData.asking();
-console.log("appData: ",appData);     // Отладочное
 appData.getExpensesMonth();
-console.log("appData: ",appData);     // Отладочное
 appData.getBudget();
-console.log("appData: ",appData);     // Отладочное
+
+
+console.log("Расходы за месяц:");
+console.log('appData.expensesMonth: ', appData.expensesMonth);
+console.log();
+console.log("Период, за который будет достигнута цель по накоплениям");
+if (appData.getTargetMonth() >= 0) {
+  console.log('Math.floor(appData.getTargetMonth()): ', Math.floor(appData.getTargetMonth()));
+} else {
+  console.log("Цель не будет достигнута");
+}
+console.log();
+console.log("Уровень дохода:");
+console.log('appData.getStatusIncome(): ', appData.getStatusIncome());
+console.log();
 
 
 
+// Вспопомогательные функции
 function requestNumber(q) {
   // запрашивает у пользователя число
   let res = 0;
@@ -152,22 +165,3 @@ function requestValue(q, d) {
     return item.trim();
   });
 }
-
-
-console.log("Уровень доходов:");
-console.log('appData.getStatusIncome(): ', appData.getStatusIncome());
-console.log();
-
-
-// Вывести в консоль:
-// — Накопления за период
-// — Cрок достижения цели в месяцах (значение округлить в меньшую сторону)
-if (appData.getTargetMonth() >= 0) {
-console.log("Cрок (период) достижения цели в месяцах:");
-console.log('Math.floor(appData.getTargetMonth()): ', Math.floor(appData.getTargetMonth()));
-} else {
-  console.log("Цель не будет достигнута");
-}
-console.log();
-console.log("Накопления за период:");
-console.log('period * appData.budgetMonth: ', appData.period * appData.budgetMonth);
