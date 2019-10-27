@@ -107,17 +107,6 @@ function requestValue(q, d) {
 }
 
 
-// Вывести в консоль типы данных money, income, deposit
-let showTypeOf = function(data) {
-  console.log(data, typeof data);
-};
-console.log("Типы данных значений переменных 'money', 'income' и 'deposit':");
-showTypeOf(money);
-showTypeOf(appData.income);
-showTypeOf(appData.deposit);
-console.log();
-
-
 // Валидация данных, которые мы получаем на вопрос 'Во сколько это обойдется?’, в функции getExpensesMonth
 let requiredName1,
     requiredName2;
