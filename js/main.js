@@ -1,12 +1,6 @@
 "use strict";
 
-let money = 123,
-    income = "завод",
-    addExpenses = "водяра, дефки, патефон",
-    deposit = false,
-    mission = 45678,
-    period = 2;
-
+let money;
 
 // Функция start c циклом do while
 let start = function() {
@@ -15,6 +9,29 @@ let start = function() {
   } while (isNaN(money) || money === "" || money === null);
 };
 start();
+
+
+let appData = {
+  income: {},           // Дополнительные(?) доходы
+  addIncome: [],        // Список дополнительных доходов
+  expenses: {},         // Дополнительные(?) расходы
+  addExpenses: [],      // Список дополнительных расходов
+  deposit: false,       // Наличие депозита
+  mission: 50000,       // Цель по накоплению
+  period: 3,            // Временной отрезок
+  asking: function() {
+    appData.addExpenses = requestValue("Перечислите возможные расходы за рассчитываемый период через запятую.");
+    appData.deposit = confirm("Есть ли у вас депозит в банке?");
+  },
+};
+
+// let income = "завод",
+//     addExpenses = "водяра, дефки, патефон",
+//     deposit = false,
+//     mission = 45678,
+//     period = 2;
+
+
 
 
 /* - Объявить переменную budgetDay и присвоить дневной бюджет (доход за месяц / 30),
@@ -89,16 +106,6 @@ function requestValue(q, d) {
   });
 }
 
-// Спрашиваем у пользователя “Ваш месячный доход?” и результат сохраняем в переменную money
-money = requestNumber("Ваш месячный доход?");
-
-/* Спросить у пользователя “Перечислите возможные расходы за рассчитываемый период через запятую”,
-сохранить в переменную addExpenses, вывести в консоль в виде массива*/
-addExpenses = requestValue("Перечислите возможные расходы за рассчитываемый период через запятую.");
-
-/* Спросить у пользователя “Есть ли у вас депозит в банке?”
-и сохранить данные в переменной deposit (булевое значение true/false) */
-deposit = confirm("Есть ли у вас депозит в банке?");
 
 // Вывести в консоль типы данных money, income, deposit
 let showTypeOf = function(data) {
@@ -106,8 +113,8 @@ let showTypeOf = function(data) {
 };
 console.log("Типы данных значений переменных 'money', 'income' и 'deposit':");
 showTypeOf(money);
-showTypeOf(income);
-showTypeOf(deposit);
+showTypeOf(appData.income);
+showTypeOf(appData.deposit);
 console.log();
 
 
@@ -179,7 +186,7 @@ let getTargetMonth = function() {
   // Возвращает период (количество месяцев), за который будет достигнута
   // цель по накоплению
   // return Math.ceil(mission / budgetMonth);
-  return Math.ceil(mission / accumulatedMonth);
+  return Math.ceil(appData.mission / accumulatedMonth);
 };
 
 
@@ -195,4 +202,4 @@ console.log('Math.floor(getTargetMonth()): ', Math.floor(getTargetMonth()));
 }
 console.log();
 console.log("Накопления за период:");
-console.log('period * accumulatedMonth: ', period * accumulatedMonth);
+console.log('period * accumulatedMonth: ', appData.period * accumulatedMonth);
