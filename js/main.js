@@ -110,19 +110,6 @@ showTypeOf(income);
 showTypeOf(deposit);
 console.log();
 
-// Спросить у пользователя по 2 раза каждый вопрос и записать ответы в переменные
-//     “Какие обязательные ежемесячные расходы у вас есть?”
-//     “Во сколько это обойдется?”
-// в итоге 4 вопроса и 4 переменных
-// let requiredName1,
-//     requiredSum1,
-//     requiredName2,
-//     requiredSum2;
-
-// requiredName1 = requestValue("Какие обязательные ежемесячные расходы у вас есть?");
-// requiredSum1 = requestNumber("Во сколько это обойдется?");
-// requiredName2 = requestValue("Какие обязательные ежемесячные расходы у вас есть?");
-// requiredSum2 = requestNumber("Во сколько это обойдется?");
 
 // Валидация данных, которые мы получаем на вопрос 'Во сколько это обойдется?’, в функции getExpensesMonth
 let requiredName1,
@@ -173,16 +160,11 @@ console.log();
 
 
 /* Создать следующие функции:
-     — getExpensesMonth. Функция возвращает сумму всех расходов за месяц
      — getAccumulatedMonth. Функция возвращает Накопления за месяц
      (Доходы минус расходы). Результат сохранить в переменную accumulatedMonth
      — getTargetMonth. Подсчитывает за какой период будет достигнута цель,
      зная результат месячного накопления и возвращает результат
 */
-// let getExpensesMonth = function(expense1, expense2) {
-//   // возвращает сумму всех расходов за месяц
-//   return expense1 + expense2;
-// };
 let getAccumulatedMonth = function(money, expenses) {
   // возвращает Накопления за месяц
   return money + expenses;
