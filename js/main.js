@@ -13,6 +13,9 @@ start();
 
 let appData = {
   budget: money,
+  budgetDay: 0,
+  budgetMonth: 0,
+  expensesMonth: 0,
   income: {},           // Дополнительные(?) доходы
   addIncome: [],        // Список дополнительных доходов
   expenses: {},         // Дополнительные(?) расходы
@@ -37,7 +40,7 @@ let appData = {
 
 /* - Объявить переменную budgetDay и присвоить дневной бюджет (доход за месяц / 30),
 вывести в консоль результат и остаток от деления */
-let budgetDay = 100/30;
+appData.budgetDay = 100/30;
 
 
 function requestNumber(q) {
@@ -129,26 +132,26 @@ let expenseAmount = getExpensesMonth();
 
 /* Вычислить доход за месяц, учитывая обязательные расходы,
 сохранить в переменную budgetMonth и вывести результат в консоль*/
-let budgetMonth = money - expenseAmount;
+appData.budgetMonth = money - expenseAmount;
 
 /* Поправить budgetDay учитывая бюджет на месяц, а не месячный доход.
 Вывести в консоль округлив в меньшую сторону (методы объекта Math в помощь) */
-budgetDay = budgetMonth / 30;
+appData.budgetDay = appData.budgetMonth / 30;
 
 let getStatusIncome = function() {
   // возвращает значение уровня дохода
   switch (true) {
-    case (budgetDay > 800):
+    case (appData.budgetDay > 800):
       return "Высокий уровень дохода";
-    case (budgetDay > 300):
+    case (appData.budgetDay > 300):
       return "Средний уровень дохода";
-    case (budgetDay > 0):
+    case (appData.budgetDay > 0):
       return "Низкий уровень дохода";
-    case (budgetDay < 0):
+    case (appData.budgetDay < 0):
       return "Что-то пошло не так";
-    case (budgetDay === 800):
-    case (budgetDay === 300):
-    case (budgetDay === 0):
+    case (appData.budgetDay === 800):
+    case (appData.budgetDay === 300):
+    case (appData.budgetDay === 0):
       return "Вы попали на границы между уровнями дохода. Определитесь уже...";
   }
 };
