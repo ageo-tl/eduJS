@@ -10,6 +10,7 @@ let start = function() {
   do {
     money = prompt("Ваш месячный доход?", 50000);
   } while (isNaN(money) || money === "" || money === null);
+  money = +money;
 };
 start();
 
