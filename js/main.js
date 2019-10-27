@@ -2,6 +2,9 @@
 
 let money;
 
+let requiredName1,
+    requiredName2;
+
 // Функция start c циклом do while
 let start = function() {
   do {
@@ -27,20 +30,51 @@ let appData = {
     appData.addExpenses = requestValue("Перечислите возможные расходы за рассчитываемый период через запятую.");
     appData.deposit = confirm("Есть ли у вас депозит в банке?");
   },
+  getExpensesMonth: function() {
+    let sum = 0;
+
+    for (let i = 0; i < 2; i++) {
+      if (!i) {
+        requiredName1 = requestValue("Какие обязательные ежемесячные расходы у вас есть?", "Квартплата");
+      } else {
+        requiredName2 = requestValue("Какие обязательные ежемесячные расходы у вас есть?", "Бензин");
+      }
+      sum += requestNumber("Во сколько это обойдется?");
+    }
+    return sum;
+  },
+  getAccumulatedMonth: function(money, expenses) {
+    // возвращает Накопления за месяц
+    return money + expenses;
+  },
+  getTargetMonth: function() {
+    // Возвращает период (количество месяцев), за который будет достигнута
+    // цель по накоплению
+    return Math.ceil(appData.mission / accumulatedMonth);
+  },
+  getStatusIncome: function() {
+    // возвращает значение уровня дохода
+    switch (true) {
+      case (appData.budgetDay > 800):
+        return "Высокий уровень дохода";
+      case (appData.budgetDay > 300):
+        return "Средний уровень дохода";
+      case (appData.budgetDay > 0):
+        return "Низкий уровень дохода";
+      case (appData.budgetDay < 0):
+        return "Что-то пошло не так";
+      case (appData.budgetDay === 800):
+      case (appData.budgetDay === 300):
+      case (appData.budgetDay === 0):
+        return "Вы попали на границы между уровнями дохода. Определитесь уже...";
+    }
+  },
 };
-
-// let income = "завод",
-//     addExpenses = "водяра, дефки, патефон",
-//     deposit = false,
-//     mission = 45678,
-//     period = 2;
-
-
 
 
 /* - Объявить переменную budgetDay и присвоить дневной бюджет (доход за месяц / 30),
 вывести в консоль результат и остаток от деления */
-appData.budgetDay = 100/30;
+// appData.budgetDay = 100/30;
 
 
 function requestNumber(q) {
@@ -111,85 +145,34 @@ function requestValue(q, d) {
 }
 
 
-// Валидация данных, которые мы получаем на вопрос 'Во сколько это обойдется?’, в функции getExpensesMonth
-let requiredName1,
-    requiredName2;
+// Сумма расходов
+let expenseAmount = appData.getExpensesMonth();
 
-let getExpensesMonth = function() {
-  let sum = 0;
-
-  for (let i = 0; i < 2; i++) {
-    if (!i) {
-      requiredName1 = requestValue("Какие обязательные ежемесячные расходы у вас есть?", "Квартплата");
-    } else {
-      requiredName2 = requestValue("Какие обязательные ежемесячные расходы у вас есть?", "Бензин");
-    }
-    sum += requestNumber("Во сколько это обойдется?");
-  }
-  return sum;
-};
-let expenseAmount = getExpensesMonth();
-
-/* Вычислить доход за месяц, учитывая обязательные расходы,
-сохранить в переменную budgetMonth и вывести результат в консоль*/
+// Вычислить доход за месяц, учитывая обязательные расходы
 appData.budgetMonth = money - expenseAmount;
 
-/* Поправить budgetDay учитывая бюджет на месяц, а не месячный доход.
-Вывести в консоль округлив в меньшую сторону (методы объекта Math в помощь) */
+// Вычислить budgetDay учитывая бюджет на месяц, а не месячный доход.
 appData.budgetDay = appData.budgetMonth / 30;
 
-let getStatusIncome = function() {
-  // возвращает значение уровня дохода
-  switch (true) {
-    case (appData.budgetDay > 800):
-      return "Высокий уровень дохода";
-    case (appData.budgetDay > 300):
-      return "Средний уровень дохода";
-    case (appData.budgetDay > 0):
-      return "Низкий уровень дохода";
-    case (appData.budgetDay < 0):
-      return "Что-то пошло не так";
-    case (appData.budgetDay === 800):
-    case (appData.budgetDay === 300):
-    case (appData.budgetDay === 0):
-      return "Вы попали на границы между уровнями дохода. Определитесь уже...";
-  }
-};
-console.log('getStatusIncome(): ', getStatusIncome());
+
+console.log("Уровень доходов:");
+console.log('appData.getStatusIncome(): ', appData.getStatusIncome());
 console.log();
 
 
-/* Создать следующие функции:
-     — getAccumulatedMonth. Функция возвращает Накопления за месяц
-     (Доходы минус расходы). Результат сохранить в переменную accumulatedMonth
-     — getTargetMonth. Подсчитывает за какой период будет достигнута цель,
-     зная результат месячного накопления и возвращает результат
-*/
-let getAccumulatedMonth = function(money, expenses) {
-  // возвращает Накопления за месяц
-  return money + expenses;
-};
-let accumulatedMonth = getAccumulatedMonth(
+// Накопление за месяц
+let accumulatedMonth = appData.getAccumulatedMonth(
                           money,
                           expenseAmount
                         );
-console.log('accumulatedMonth: ', accumulatedMonth);      // Отладочное
-
-let getTargetMonth = function() {
-  // Возвращает период (количество месяцев), за который будет достигнута
-  // цель по накоплению
-  // return Math.ceil(mission / budgetMonth);
-  return Math.ceil(appData.mission / accumulatedMonth);
-};
 
 
-// Все консоль логи которые были до этого почистить и вывести в консоль:
-// — Оставить функции showTypeof и getStatusIncome, которые написали в уроке
+// Вывести в консоль:
 // — Накопления за период
 // — Cрок достижения цели в месяцах (значение округлить в меньшую сторону)
-if (getTargetMonth() >= 0) {
+if (appData.getTargetMonth() >= 0) {
 console.log("Cрок (период) достижения цели в месяцах:");
-console.log('Math.floor(getTargetMonth()): ', Math.floor(getTargetMonth()));
+console.log('Math.floor(appData.getTargetMonth()): ', Math.floor(appData.getTargetMonth()));
 } else {
   console.log("Цель не будет достигнута");
 }
