@@ -1,26 +1,43 @@
 "use strict";
 
+// Создать массив week и записать в него дни недели в виде строк
+// - Вывести на экран все дни недели
+// - Каждый из них с новой строчки
+// - Выходные дни - курсивом
+// - Текущий день - жирным шрифтом(использовать объект даты)
 
-// Создать массив arr = []
-// — Записать в него 7 любых многозначных чисел в виде строк
-// — Вывести в консоль только те, что начинаются с цифры 2 или 4
-//    (Должны присутствовать в массиве)
-let arr = [];
-arr.push("143", "64", "448", "5170", "21", "43", "317");
-console.log("Массив чисел в виде строк:");
-console.log('arr: ', arr);
-console.log("Элементы массива, начинающиеся с 2 или 4:");
-console.log('arr.filter(num => num[0] == 2 || num[0] == 4 ): ',
-              arr.filter(num => num[0] == 2 || num[0] == 4 ));
-console.log();
+let week = ["понедельник", "вторник", "среда", "четверг", "пятница", "суббота", "воскресенье"];
 
-// Вывести в столбик все простые числа от 1 до 100
-// — Рядом с каждым числом написать оба делителя данного числа
-//    Например: “Делители этого числа: 1 и n”
-let primeNumber = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41,
-                    43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97];
 
-console.log("Список простых чисел меньше 100:");
-for (let i = 0; i < primeNumber.length; i++) {
-  console.log(`${primeNumber[i]}; делители числа: 1 и ${primeNumber[i]}`);
+let now = new Date();
+let getDayOfWeek = function(date) {
+  if (date.getDay() === 0) {
+    return 6;
+  } else {
+    return date.getDay() - 1;
+  }
+};
+let dayOfWeek = getDayOfWeek(now);
+
+
+let div = document.createElement("div");
+
+let head = document.createElement("h1");
+head.innerText = "Дни недели:";
+div.appendChild(head);
+
+let dayElem;
+for (let i in week) {
+  dayElem = document.createElement("p");
+  dayElem.innerText = week[i];
+  dayElem.style.marginLeft = "20px";
+  if (+i > 4) {
+    dayElem.style.fontStyle = "italic";
+  }
+  if (+i === dayOfWeek) {
+    dayElem.style.fontWeight = "bold";
+  }
+  div.appendChild(dayElem);
 }
+
+document.body.appendChild(div);
