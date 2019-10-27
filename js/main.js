@@ -28,21 +28,25 @@ let appData = {
   mission: 50000,       // Цель по накоплению
   period: 3,            // Временной отрезок
   asking: function() {
+    for (let i = 0; i < 2; i++) {
+      let exp, sum;
+      if (!i) {
+        exp = requestValue("Какие обязательные ежемесячные расходы у вас есть?", "Квартплата");
+      } else {
+        exp = requestValue("Какие обязательные ежемесячные расходы у вас есть?", "Бензин");
+      }
+      sum = requestNumber("Во сколько это обойдется?");
+      appData.expenses[exp] = sum;
+    }
     appData.addExpenses = requestValue("Перечислите возможные расходы за рассчитываемый период через запятую.");
     appData.deposit = confirm("Есть ли у вас депозит в банке?");
   },
   getExpensesMonth: function() {
     let sum = 0;
-
-    for (let i = 0; i < 2; i++) {
-      if (!i) {
-        requiredName1 = requestValue("Какие обязательные ежемесячные расходы у вас есть?", "Квартплата");
-      } else {
-        requiredName2 = requestValue("Какие обязательные ежемесячные расходы у вас есть?", "Бензин");
-      }
-      sum += requestNumber("Во сколько это обойдется?");
+    for (let exp in appData.expenses) {
+      sum += appData.expenses[exp];
     }
-    return sum;
+    appData.expensesMonth = sum;
   },
   getAccumulatedMonth: function(money, expenses) {
     // возвращает Накопления за месяц
@@ -71,6 +75,11 @@ let appData = {
     }
   },
 };
+
+appData.asking();
+console.log("appData: ",appData);     // Отладочное
+appData.getExpensesMonth();
+console.log("appData: ",appData);     // Отладочное
 
 
 /* - Объявить переменную budgetDay и присвоить дневной бюджет (доход за месяц / 30),
