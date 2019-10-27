@@ -97,6 +97,12 @@ console.log('appData.getStatusIncome(): ', appData.getStatusIncome());
 console.log();
 
 
+console.log("Наша программа (объект appData) включает в себя данные:");
+for (let key in appData) {
+  console.log(key, typeof appData[key]);
+}
+
+
 
 // Вспопомогательные функции
 function requestNumber(q) {
