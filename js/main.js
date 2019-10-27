@@ -48,14 +48,15 @@ let appData = {
     }
     appData.expensesMonth = sum;
   },
-  getAccumulatedMonth: function(money, expenses) {
-    // возвращает Накопления за месяц
-    return money + expenses;
+  getBudget: function() {
+    // считает бюджеты за месяц и за день
+    appData.budgetMonth = money - appData.expensesMonth;
+    appData.budgetDay = appData.budgetMonth / 30;
   },
   getTargetMonth: function() {
     // Возвращает период (количество месяцев), за который будет достигнута
     // цель по накоплению
-    return Math.ceil(appData.mission / accumulatedMonth);
+    return Math.ceil(appData.mission / appData.budgetMonth);
   },
   getStatusIncome: function() {
     // возвращает значение уровня дохода
@@ -80,11 +81,9 @@ appData.asking();
 console.log("appData: ",appData);     // Отладочное
 appData.getExpensesMonth();
 console.log("appData: ",appData);     // Отладочное
+appData.getBudget();
+console.log("appData: ",appData);     // Отладочное
 
-
-/* - Объявить переменную budgetDay и присвоить дневной бюджет (доход за месяц / 30),
-вывести в консоль результат и остаток от деления */
-// appData.budgetDay = 100/30;
 
 
 function requestNumber(q) {
@@ -155,26 +154,9 @@ function requestValue(q, d) {
 }
 
 
-// Сумма расходов
-let expenseAmount = appData.getExpensesMonth();
-
-// Вычислить доход за месяц, учитывая обязательные расходы
-appData.budgetMonth = money - expenseAmount;
-
-// Вычислить budgetDay учитывая бюджет на месяц, а не месячный доход.
-appData.budgetDay = appData.budgetMonth / 30;
-
-
 console.log("Уровень доходов:");
 console.log('appData.getStatusIncome(): ', appData.getStatusIncome());
 console.log();
-
-
-// Накопление за месяц
-let accumulatedMonth = appData.getAccumulatedMonth(
-                          money,
-                          expenseAmount
-                        );
 
 
 // Вывести в консоль:
@@ -188,4 +170,4 @@ console.log('Math.floor(appData.getTargetMonth()): ', Math.floor(appData.getTarg
 }
 console.log();
 console.log("Накопления за период:");
-console.log('period * accumulatedMonth: ', appData.period * accumulatedMonth);
+console.log('period * appData.budgetMonth: ', appData.period * appData.budgetMonth);
