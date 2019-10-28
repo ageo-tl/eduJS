@@ -115,6 +115,12 @@ console.log('appData.getStatusIncome(): ', appData.getStatusIncome());
 console.log();
 
 
+// Список возможных расходов
+let msg = appData.addExpenses.map( word => word[0].toUpperCase() + word.slice(1).toLowerCase()).join(", ");
+console.log("Список возможных расходов: ", msg);
+console.log();
+
+
 console.log("Наша программа (объект appData) включает в себя данные:");
 for (let key in appData) {
   console.log(key, typeof appData[key]);
