@@ -25,9 +25,18 @@ let appData = {
   expenses: {},         // Дополнительные(?) расходы
   addExpenses: [],      // Список дополнительных расходов
   deposit: false,       // Наличие депозита
+  percentDeposit: 0,    // Процент депозита
+  moneyDeposit: 0,      // Сумма на депозите
   mission: 50000,       // Цель по накоплению
   period: 3,            // Временной отрезок
   asking: function() {
+
+    if (confirm("Есть ли у Вас дополнительный заработок?")) {
+      let itemIncome = prompt("Какой у вас есть дополнительный заработок", "Таксую");
+      let cashIncome = prompt("Сколько в месяц Вы на этом зарабатываете?", 10000);
+      appData.income[itemIncome] = cashIncome;
+    }
+
     for (let i = 0; i < 2; i++) {
       let exp, sum;
       if (!i) {
@@ -35,7 +44,7 @@ let appData = {
       } else {
         exp = requestValue("Какие обязательные ежемесячные расходы у вас есть?", "Бензин");
       }
-      sum = requestNumber("Во сколько это обойдется?");
+      sum = requestNumber("Во сколько это обойдется?", 5000);
       appData.expenses[exp] = sum;
     }
     appData.addExpenses = requestValue("Перечислите возможные расходы за рассчитываемый период через запятую.");
@@ -75,6 +84,15 @@ let appData = {
         return "Вы попали на границы между уровнями дохода. Определитесь уже...";
     }
   },
+  getInfoDeposit: function() {
+    if (appData.deposit) {
+      appData.percentDeposit = prompt("Какой годовой процент у депозита?", 10);
+      appData.moneyDeposit = prompt("Какая сумма находится на депозите?", 10000);
+    }
+  },
+  calcSavedMoney: function() {
+    return appData.budgetMonth * appData.period;
+  }
 };
 
 appData.asking();
