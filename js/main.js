@@ -32,8 +32,8 @@ let appData = {
   asking: function() {
 
     if (confirm("Есть ли у Вас дополнительный заработок?")) {
-      let itemIncome = prompt("Какой у вас есть дополнительный заработок", "Таксую");
-      let cashIncome = prompt("Сколько в месяц Вы на этом зарабатываете?", 10000);
+      let itemIncome = requestValue("Какой у вас есть дополнительный заработок", "Таксую");
+      let cashIncome = requestNumber("Сколько в месяц Вы на этом зарабатываете?", 10000);
       appData.income[itemIncome] = cashIncome;
     }
 
@@ -86,8 +86,8 @@ let appData = {
   },
   getInfoDeposit: function() {
     if (appData.deposit) {
-      appData.percentDeposit = prompt("Какой годовой процент у депозита?", 10);
-      appData.moneyDeposit = prompt("Какая сумма находится на депозите?", 10000);
+      appData.percentDeposit = requestNumber("Какой годовой процент у депозита?", 10);
+      appData.moneyDeposit = requestNumber("Какая сумма находится на депозите?", 10000);
     }
   },
   calcSavedMoney: function() {
@@ -123,13 +123,14 @@ for (let key in appData) {
 
 
 // Вспопомогательные функции
-function requestNumber(q) {
+function requestNumber(q, d) {
   // запрашивает у пользователя число
   let res = 0;
   let tmp = "";
+  if (d === undefined) { d = ""; }
 
   while (true) {
-    res = prompt(q + tmp);
+    res = prompt(q + tmp, d);
     // Проверка на число
     if (res === null){
       break;
@@ -174,6 +175,8 @@ function requestValue(q, d) {
 
     if (res.length === 0) {
       tmp = " Не оставляйте поле пустым!";
+    } else if (!isNaN(parseFloat(res))) {
+      tmp = " Следует ввести наименование, а не число!";
     } else {
       break;
     }
