@@ -53,11 +53,9 @@ let appData = {
     appData.deposit = confirm("Есть ли у вас депозит в банке?");
   },
   getExpensesMonth: function() {
-    let sum = 0;
     for (let exp in appData.expenses) {
-      sum += appData.expenses[exp];
+      appData.expensesMonth += appData.expenses[exp];
     }
-    appData.expensesMonth = sum;
   },
   getBudget: function() {
     // считает бюджеты за месяц и за день
