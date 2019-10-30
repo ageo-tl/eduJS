@@ -1,5 +1,7 @@
 "use strict";
 
+const USERFRIENDLY = false;
+
 let money;
 
 let requiredName1,
@@ -32,7 +34,7 @@ let appData = {
   asking: function() {
 
     if (confirm("Есть ли у Вас дополнительный заработок?")) {
-      let itemIncome = requestValue("Какой у вас есть дополнительный заработок", "Таксую");
+      let itemIncome = requestValue("Какой у вас есть дополнительный заработок?", "Таксую");
       let cashIncome = requestNumber("Сколько в месяц Вы на этом зарабатываете?", 10000);
       appData.income[itemIncome] = cashIncome;
     }
@@ -139,7 +141,12 @@ function requestNumber(q, d) {
     res = prompt(q + tmp, d);
     // Проверка на число
     if (res === null){
-      break;
+      if (USERFRIENDLY) {
+        break;
+      } else {
+        tmp = " Увы! Теперь так просто не отделаешься!..";
+        continue;
+      }
     }
 
     res = res.replace(",", ".");
@@ -160,7 +167,7 @@ function requestNumber(q, d) {
     }
   }
   // Проверка на отмену
-  if (res === null) {
+  if (res === null && USERFRIENDLY) {
     console.log("Действие отменено пользователем");
     throw "stop";
   }
@@ -176,7 +183,12 @@ function requestValue(q, d) {
     res = prompt(q + tmp, d);
 
     if (res === null) {
-      break;
+      if (USERFRIENDLY) {
+        break;
+      } else {
+        tmp = " Увы! Теперь так просто не отделаешься!..";
+        continue;
+      }
     }
 
     if (res.length === 0) {
@@ -188,7 +200,7 @@ function requestValue(q, d) {
     }
   }
 
-  if (res === null) {
+  if (res === null && USERFRIENDLY) {
     console.log("Действие отменено пользователем");
     throw "stop";
   }
