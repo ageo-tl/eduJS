@@ -58,8 +58,13 @@ let appData = {
     }
   },
   getBudget: function() {
+    // учтем дополнительные доходы
+    let sum = 0;
+    for (let inc in appData.income) {
+      sum += appData.income[inc];
+    }
     // считает бюджеты за месяц и за день
-    appData.budgetMonth = money - appData.expensesMonth;
+    appData.budgetMonth = money + sum - appData.expensesMonth;
     appData.budgetDay = appData.budgetMonth / 30;
   },
   getTargetMonth: function() {
