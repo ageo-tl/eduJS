@@ -113,12 +113,14 @@ const appData = {
     });
   },
   getIncome: function() {
-    // inputIncomeItems
-    if (confirm("Есть ли у Вас дополнительный заработок?")) {
-      let itemIncome = requestValue("Какой у вас есть дополнительный заработок?", "Таксую");
-      let cashIncome = requestNumber("Сколько в месяц Вы на этом зарабатываете?", 10000);
-      appData.income[itemIncome] = cashIncome;
-    }
+    incomeItems.forEach(function(item) {
+      let itemIncome = item.querySelector('.income-title').value;
+      let cashIncome = item.querySelector('.income-amount').value;
+
+      if (itemIncome.length !== 0 && cashIncome !== 0) {
+        appData.income[itemIncome] = +cashIncome;
+      }
+    });
 
     for (let key in appData.income) {
       appData.incomeMonth += +appData.income[key];
