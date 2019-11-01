@@ -70,7 +70,7 @@ const appData = {
   },
   showResult: function() {
     inputBudgetMonth.value = appData.budgetMonth;
-    inputBudgetDay.value = appData.budgetDay;
+    inputBudgetDay.value = Math.floor(appData.budgetDay);
     inputExpensesMonth.value =appData.expensesMonth;
     inputAddExpenses.value = appData.addExpenses.join(", ");
     inputAddIncome.value = appData.addIncome.join(", ");
