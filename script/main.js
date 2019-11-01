@@ -23,13 +23,13 @@ const btnStartCalc = document.getElementById("start"),
       // Получить оставшиеся поля через querySelector каждый в отдельную переменную
       // (Инпуты с левой стороны не забудьте про range)
       inputSalaryAmount = document.querySelector("input.salary-amount"),
-      inputIncomeItems = document.querySelector(".income-items"),
       inputExpensesTitle = document.querySelector("input.expenses-title"),
       inputAddExpensesItem = document.querySelector("input.additional_expenses-item"),
       inputTargetAmount = document.querySelector("input.target-amount"),
       inputPeriodSelect = document.querySelector("input.period-select");
 
 let expensesItems = document.querySelectorAll(".expenses-items");
+let incomeItems = document.querySelectorAll(".income-items");
 
 
 
@@ -89,6 +89,18 @@ const appData = {
       btnPlus2.style.display = "none";
     }
   },
+  addIncomeBlock: function() {
+    // Добавление строки для ввода дополнительных доходов
+      let cloneIncomeItem = incomeItems[0].cloneNode(true);
+      incomeItems[0].parentNode.insertBefore(cloneIncomeItem, btnPlus1);
+
+      incomeItems = document.querySelectorAll(".income-items");
+
+      // Скрытие кнопки [+] при трех элементах на странице
+      if (incomeItems.length >= 3) {
+        btnPlus1.style.display = "none";
+      }
+    },
   getExpenses: function() {
     expensesItems.forEach(function(item) {
       let itemExpenses = item.querySelector('.expenses-title').value;
@@ -178,6 +190,7 @@ const appData = {
 btnStartCalc.addEventListener("click", appData.start);
 
 btnPlus2.addEventListener("click", appData.addExpensesBlock);
+btnPlus1.addEventListener("click", appData.addIncomeBlock);
 
 
 
