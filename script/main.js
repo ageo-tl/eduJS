@@ -27,7 +27,8 @@ const btnStartCalc = document.getElementById("start"),
       inputAddExpensesItem = document.querySelector("input.additional_expenses-item"),
       inputTargetAmount = document.querySelector("input.target-amount"),
       inputPeriodSelect = document.querySelector("input.period-select"),
-      divTitlePeriodAmount = document.querySelector("div.title.period-amount");
+      divTitlePeriodAmount = document.querySelector("div.title.period-amount"),
+      btnReset = document.getElementById("cancel");
 
 let expensesItems = document.querySelectorAll(".expenses-items");
 let incomeItems = document.querySelectorAll(".income-items");
@@ -55,6 +56,14 @@ const appData = {
     if (inputSalaryAmount.value.length === 0) {
       alert("Ошибка!\nПоле \"Месячный доход\" должно быть заполнено!");
     }
+
+    const data = document.querySelector(".data");
+    (data.querySelectorAll("input[type='text']")).forEach(function(elem) {
+      elem.disabled = true;
+    });
+
+    btnStartCalc.style.display = "none";
+    btnReset.style.display = "block";
 
     appData.budget = +inputSalaryAmount.value;
     console.log('inputSalaryAmount.value: ', inputSalaryAmount.value);
