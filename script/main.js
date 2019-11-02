@@ -76,7 +76,11 @@ const appData = {
     inputAddExpenses.value = appData.addExpenses.join(", ");
     inputAddIncome.value = appData.addIncome.join(", ");
     inputTargetMonth.value = appData.getTargetMonth();
+    // Значение поля "Накопление за период" и его динамическое обновление
     inputIncomePeriod.value = appData.calcSavedMoney();
+    inputPeriodSelect.addEventListener("input", function() {
+      inputIncomePeriod.value = appData.calcSavedMoney();
+    });
   },
   addExpensesBlock: function() {
   // Добавление строки для ввода обязательных расходов
