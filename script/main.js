@@ -53,21 +53,18 @@ const appData = {
   moneyDeposit: 0,      // Сумма на депозите
   start: function() {
 
-    if (inputSalaryAmount.value.length === 0) {
-      alert("Ошибка!\nПоле \"Месячный доход\" должно быть заполнено!");
-    }
-
+    // Блокировка полей после нажатия кнопки "Рассчитать"
     const data = document.querySelector(".data");
     (data.querySelectorAll("input[type='text']")).forEach(function(elem) {
       elem.disabled = true;
     });
 
+    // Скрытие кнопки "Рассчитать" и отображение "Сбросить"
     btnStartCalc.style.display = "none";
     btnReset.style.display = "block";
 
+    // Рассчеты значений для appData
     appData.budget = +inputSalaryAmount.value;
-    console.log('inputSalaryAmount.value: ', inputSalaryAmount.value);
-
     appData.getExpenses();
     appData.getIncome();
     appData.getExpensesMonth();
@@ -75,6 +72,7 @@ const appData = {
     appData.getAddIncome();
     appData.getBudget();
 
+    // Размещение данных в полях области с результатом
     appData.showResult();
 
   },
@@ -116,6 +114,7 @@ const appData = {
       }
     },
   getExpenses: function() {
+    // Обязательные расходы
     expensesItems.forEach(function(item) {
       let itemExpenses = item.querySelector('.expenses-title').value;
       let cashExpenses = item.querySelector('.expenses-amount').value;
@@ -123,10 +122,10 @@ const appData = {
       if (itemExpenses.length !== 0 && cashExpenses !== 0) {
         appData.expenses[itemExpenses] = +cashExpenses;
       }
-
     });
   },
   getIncome: function() {
+    // Дополнительные доходы
     incomeItems.forEach(function(item) {
       let itemIncome = item.querySelector('.income-title').value;
       let cashIncome = item.querySelector('.income-amount').value;
@@ -139,9 +138,9 @@ const appData = {
     for (let key in appData.income) {
       appData.incomeMonth += +appData.income[key];
     }
-
   },
   getAddExpenses: function() {
+    // Список возможных расходов
     let addExpenses = inputAddExpensesItem.value.split(",");
 
     addExpenses.forEach(function(item) {
@@ -152,6 +151,7 @@ const appData = {
     });
   },
   getAddIncome: function() {
+    // Список возможных доходов
     inputAddIncomeItem.forEach(function(item) {
       let itemVal = item.value.trim();
       if (itemVal.length !== 0) {
@@ -160,6 +160,7 @@ const appData = {
     });
   },
   getExpensesMonth: function() {
+    // Расчет расходов за месяц
     for (let exp in appData.expenses) {
       appData.expensesMonth += appData.expenses[exp];
     }
@@ -231,24 +232,6 @@ toggleDisableStart(true);
 inputSalaryAmount.addEventListener('input', function(event) {
   toggleDisableStart(event.target.value.trim().length === 0);
 });
-
-
-
-btnStartCalc.setAttribute('disabled', 'disabled');
-btnStartCalc.title = "Заполните поле \"Месячный доход\"";
-btnStartCalc.style.opacity = ".5";
-inputSalaryAmount.addEventListener('input', function(event) {
-  if (event.target.value.trim().length === 0) {
-    btnStartCalc.setAttribute('disabled', 'disabled');
-    btnStartCalc.title = "Заполните поле \"Месячный доход\"";
-    btnStartCalc.style.opacity = ".5";
-  } else {
-    btnStartCalc.removeAttribute("disabled");
-    btnStartCalc.removeAttribute("title");
-    btnStartCalc.style.opacity = "";
-  }
-});
-
 
 
 
