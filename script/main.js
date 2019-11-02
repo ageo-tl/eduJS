@@ -92,6 +92,11 @@ const appData = {
   addExpensesBlock: function() {
   // Добавление строки для ввода обязательных расходов
     let cloneExpensesItem = expensesItems[0].cloneNode(true);
+    const cloneExpensesItemInputs =
+        cloneExpensesItem.querySelectorAll("input");
+    cloneExpensesItemInputs.forEach(function(elem) {
+      elem.value = "";
+    });
     expensesItems[0].parentNode.insertBefore(cloneExpensesItem, btnPlus2);
 
     expensesItems = document.querySelectorAll(".expenses-items");
@@ -104,6 +109,10 @@ const appData = {
   addIncomeBlock: function() {
     // Добавление строки для ввода дополнительных доходов
       let cloneIncomeItem = incomeItems[0].cloneNode(true);
+      const cloneIncomeItemInputs = cloneIncomeItem.querySelectorAll("input");
+      cloneIncomeItemInputs.forEach(function(elem) {
+        elem.value = "";
+      });
       incomeItems[0].parentNode.insertBefore(cloneIncomeItem, btnPlus1);
 
       incomeItems = document.querySelectorAll(".income-items");
