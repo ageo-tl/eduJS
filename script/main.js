@@ -26,7 +26,8 @@ const btnStartCalc = document.getElementById("start"),
       inputExpensesTitle = document.querySelector("input.expenses-title"),
       inputAddExpensesItem = document.querySelector("input.additional_expenses-item"),
       inputTargetAmount = document.querySelector("input.target-amount"),
-      inputPeriodSelect = document.querySelector("input.period-select");
+      inputPeriodSelect = document.querySelector("input.period-select"),
+      divTitlePeriodAmount = document.querySelector("div.title.period-amount");
 
 let expensesItems = document.querySelectorAll(".expenses-items");
 let incomeItems = document.querySelectorAll(".income-items");
@@ -194,6 +195,10 @@ btnStartCalc.addEventListener("click", appData.start);
 btnPlus2.addEventListener("click", appData.addExpensesBlock);
 btnPlus1.addEventListener("click", appData.addIncomeBlock);
 
+// Изменение подписи под ползунком
+inputPeriodSelect.addEventListener("input", function(event) {
+  divTitlePeriodAmount.textContent = event.target.value;
+});
 
 
 // Вспопомогательные функции
