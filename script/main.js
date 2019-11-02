@@ -214,6 +214,44 @@ inputPeriodSelect.addEventListener("input", function(event) {
 });
 
 
+// Блокировка кнопки "Расчитать" при пустом поле "Месячный доход"
+const toggleDisableStart = function(off) {
+  if (off) {
+    btnStartCalc.setAttribute('disabled', 'disabled');
+    btnStartCalc.title = "Заполните поле \"Месячный доход\"";
+    btnStartCalc.style.opacity = ".5";
+  } else {
+    btnStartCalc.removeAttribute("disabled");
+    btnStartCalc.removeAttribute("title");
+    btnStartCalc.style.opacity = "";
+  }
+};
+
+toggleDisableStart(true);
+inputSalaryAmount.addEventListener('input', function(event) {
+  toggleDisableStart(event.target.value.trim().length === 0);
+});
+
+
+
+btnStartCalc.setAttribute('disabled', 'disabled');
+btnStartCalc.title = "Заполните поле \"Месячный доход\"";
+btnStartCalc.style.opacity = ".5";
+inputSalaryAmount.addEventListener('input', function(event) {
+  if (event.target.value.trim().length === 0) {
+    btnStartCalc.setAttribute('disabled', 'disabled');
+    btnStartCalc.title = "Заполните поле \"Месячный доход\"";
+    btnStartCalc.style.opacity = ".5";
+  } else {
+    btnStartCalc.removeAttribute("disabled");
+    btnStartCalc.removeAttribute("title");
+    btnStartCalc.style.opacity = "";
+  }
+});
+
+
+
+
 // Вспопомогательные функции
 function requestNumber(q, d) {
   // запрашивает у пользователя число
