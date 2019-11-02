@@ -96,6 +96,7 @@ const appData = {
         cloneExpensesItem.querySelectorAll("input");
     cloneExpensesItemInputs.forEach(function(elem) {
       elem.value = "";
+      addListenerControl(elem);
     });
     expensesItems[0].parentNode.insertBefore(cloneExpensesItem, btnPlus2);
 
@@ -112,6 +113,7 @@ const appData = {
       const cloneIncomeItemInputs = cloneIncomeItem.querySelectorAll("input");
       cloneIncomeItemInputs.forEach(function(elem) {
         elem.value = "";
+        addListenerControl(elem);
       });
       incomeItems[0].parentNode.insertBefore(cloneIncomeItem, btnPlus1);
 
@@ -241,6 +243,66 @@ toggleDisableStart(true);
 inputSalaryAmount.addEventListener('input', function(event) {
   toggleDisableStart(event.target.value.trim().length === 0);
 });
+
+
+// Ограничения ввода в поля только определенных символов
+const numControl = function(event) {
+  // Проверяет ввод цифр и добавляет предупреждение
+  const curVal = event.target.value;
+  if (curVal.match(/[^0-9]/g)) {
+    event.target.value = curVal.replace(/[^0-9]/g, "");
+    const oldWarn = event.target.parentNode.querySelector("div#warning");
+    if (!oldWarn) {
+      const warning = document.createElement("div");
+      warning.setAttribute("id", "warning");
+      warning.textContent = "Допустимо вводить только цифры!";
+      warning.style.color = "red";
+      warning.style.fontSize = "0.8rem";
+      (event.target.parentNode).appendChild(warning);
+    }
+  }
+};
+const charControl = function(event) {
+  // Проверяет ввод букв и добавляет предупреждение
+  const curVal = event.target.value;
+  if (curVal.match(/[^А-Яа-яЁё ,\.-]/g)) {
+    event.target.value = curVal.replace(/[^А-Яа-яЁё ,\.-]/g, "");
+    const oldWarn = event.target.parentNode.querySelector("div#warning");
+    if (!oldWarn) {
+      const warning = document.createElement("div");
+      warning.setAttribute("id", "warning");
+      warning.textContent = "Допустимо вводить только буквы русского алфавита!";
+      warning.style.color = "red";
+      warning.style.fontSize = "0.8rem";
+      (event.target.parentNode).appendChild(warning);
+    }
+  }
+};
+const removeWarning = function(event) {
+  // Удаление предупреждениея о допустимости использования
+  // только определенных символов
+  const oldWarn = event.target.parentNode.querySelector("div#warning");
+  if (oldWarn) { oldWarn.remove(); }
+};
+
+const addListenerControl = function(elems) {
+  let it;
+  if ("forEach" in elems) {
+    it = elems;
+  } else {
+    it = [elems];
+  }
+  it.forEach(function(item){
+    if (item.placeholder === "Наименование") {
+      item.addEventListener("input", charControl);
+    } else if (item.placeholder === "Сумма") {
+      item.addEventListener("input", numControl);
+    }
+    item.addEventListener("blur", removeWarning);
+  });
+};
+
+addListenerControl(document.querySelectorAll("input[type='text']"));
 
 
 
