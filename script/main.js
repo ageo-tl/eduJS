@@ -64,27 +64,28 @@ const appData = {
     btnReset.style.display = "block";
 
     // Рассчеты значений для appData
-    appData.budget = +inputSalaryAmount.value;
-    appData.getExpenses();
-    appData.getIncome();
-    appData.getExpensesMonth();
-    appData.getAddExpenses();
-    appData.getAddIncome();
-    appData.getBudget();
+    this.budget = +inputSalaryAmount.value;
+    this.getExpenses();
+    this.getIncome();
+    this.getExpensesMonth();
+    this.getAddExpenses();
+    this.getAddIncome();
+    this.getBudget();
+    this.getInfoDeposit();
 
     // Размещение данных в полях области с результатом
-    appData.showResult();
+    this.showResult();
 
   },
   showResult: function() {
-    inputBudgetMonth.value = appData.budgetMonth;
-    inputBudgetDay.value = Math.floor(appData.budgetDay);
-    inputExpensesMonth.value =appData.expensesMonth;
-    inputAddExpenses.value = appData.addExpenses.join(", ");
-    inputAddIncome.value = appData.addIncome.join(", ");
-    inputTargetMonth.value = appData.getTargetMonth();
+    inputBudgetMonth.value = this.budgetMonth;
+    inputBudgetDay.value = Math.floor(this.budgetDay);
+    inputExpensesMonth.value = this.expensesMonth;
+    inputAddExpenses.value = this.addExpenses.join(", ");
+    inputAddIncome.value = this.addIncome.join(", ");
+    inputTargetMonth.value = this.getTargetMonth();
     // Значение поля "Накопление за период" и его динамическое обновление
-    inputIncomePeriod.value = appData.calcSavedMoney();
+    inputIncomePeriod.value = this.calcSavedMoney();
     inputPeriodSelect.addEventListener("input", function() {
       inputIncomePeriod.value = appData.calcSavedMoney();
     });
@@ -146,8 +147,8 @@ const appData = {
       }
     });
 
-    for (let key in appData.income) {
-      appData.incomeMonth += +appData.income[key];
+    for (let key in this.income) {
+      this.incomeMonth += +this.income[key];
     }
   },
   getAddExpenses: function() {
@@ -172,14 +173,14 @@ const appData = {
   },
   getExpensesMonth: function() {
     // Расчет расходов за месяц
-    for (let exp in appData.expenses) {
-      appData.expensesMonth += appData.expenses[exp];
+    for (let exp in this.expenses) {
+      this.expensesMonth += this.expenses[exp];
     }
   },
   getBudget: function() {
     // считает бюджеты за месяц и за день
-    appData.budgetMonth = appData.budget + appData.incomeMonth - appData.expensesMonth;
-    appData.budgetDay = appData.budgetMonth / 30;
+    this.budgetMonth = this.budget + this.incomeMonth - this.expensesMonth;
+    this.budgetDay = this.budgetMonth / 30;
   },
   getTargetMonth: function() {
     // Возвращает период (количество месяцев), за который будет достигнута
@@ -204,18 +205,20 @@ const appData = {
     }
   },
   getInfoDeposit: function() {
-    appData.deposit = confirm("Есть ли у вас депозит в банке?");
-    if (appData.deposit) {
-      appData.percentDeposit = requestNumber("Какой годовой процент у депозита?", 10);
-      appData.moneyDeposit = requestNumber("Какая сумма находится на депозите?", 10000);
+    this.deposit = confirm("Есть ли у вас депозит в банке?");
+    if (this.deposit) {
+      this.percentDeposit = requestNumber("Какой годовой процент у депозита?", 10);
+      this.moneyDeposit = requestNumber("Какая сумма находится на депозите?", 10000);
     }
   },
   calcSavedMoney: function() {
-    return appData.budgetMonth * +inputPeriodSelect.value;
+    return this.budgetMonth * +inputPeriodSelect.value;
   }
 };
 
-btnStartCalc.addEventListener("click", appData.start);
+const startAppData = appData.start.bind(appData);
+
+btnStartCalc.addEventListener("click", startAppData);
 
 btnPlus2.addEventListener("click", appData.addExpensesBlock);
 btnPlus1.addEventListener("click", appData.addIncomeBlock);
