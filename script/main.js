@@ -103,7 +103,7 @@ AppData.prototype.reset = function() {
     });
 
   // Блокировка кнопки "Рассчитать"
-  toggleDisableStart(true);
+  this.toggleDisableStart(true);
 
   // Скрытие кнопки "Сбросить" и отображение "Рассчитать"
   btnStartCalc.style.display = "block";
@@ -146,12 +146,13 @@ AppData.prototype.showResult = function(listener) {
 };
 AppData.prototype.addExpensesBlock = function() {
 // Добавление строки для ввода обязательных расходов
+  const _this = this;
   let cloneExpensesItem = expensesItems[0].cloneNode(true);
   const cloneExpensesItemInputs =
       cloneExpensesItem.querySelectorAll("input");
   cloneExpensesItemInputs.forEach(function(elem) {
     elem.value = "";
-    addListenerControl(elem);
+    _this.addListenerControl(elem);
   });
   expensesItems[0].parentNode.insertBefore(cloneExpensesItem, btnPlus2);
 
@@ -164,11 +165,12 @@ AppData.prototype.addExpensesBlock = function() {
 };
 AppData.prototype.addIncomeBlock = function() {
 // Добавление строки для ввода дополнительных доходов
+  const _this = this;
   let cloneIncomeItem = incomeItems[0].cloneNode(true);
   const cloneIncomeItemInputs = cloneIncomeItem.querySelectorAll("input");
   cloneIncomeItemInputs.forEach(function(elem) {
     elem.value = "";
-    addListenerControl(elem);
+    _this.addListenerControl(elem);
   });
   incomeItems[0].parentNode.insertBefore(cloneIncomeItem, btnPlus1);
 
@@ -279,32 +281,8 @@ AppData.prototype.calcSavedMoney = function() {
 AppData.prototype.listenerForRangePeriod = function() {
   inputIncomePeriod.value = this.calcSavedMoney();
 };
-
-
-
-
-
-const appData = new AppData();
-console.log('appData: ', appData);
-
-
-const startAppData = appData.start.bind(appData);
-const resetAppData = appData.reset.bind(appData);
-
-btnStartCalc.addEventListener("click", startAppData);
-btnReset.addEventListener("click", resetAppData);
-
-btnPlus2.addEventListener("click", appData.addExpensesBlock);
-btnPlus1.addEventListener("click", appData.addIncomeBlock);
-
-// Изменение подписи под ползунком
-inputPeriodSelect.addEventListener("input", function(event) {
-  divTitlePeriodAmount.textContent = event.target.value;
-});
-
-
+AppData.prototype.toggleDisableStart = function(off) {
 // Блокировка кнопки "Расчитать" при пустом поле "Месячный доход"
-const toggleDisableStart = function(off) {
   if (off) {
     btnStartCalc.setAttribute('disabled', 'disabled');
     btnStartCalc.title = "Заполните поле \"Месячный доход\"";
@@ -315,16 +293,9 @@ const toggleDisableStart = function(off) {
     btnStartCalc.style.opacity = "";
   }
 };
-
-toggleDisableStart(true);
-inputSalaryAmount.addEventListener('input', function(event) {
-  toggleDisableStart(event.target.value.trim().length === 0);
-});
-
-
 // Ограничения ввода в поля только определенных символов
-const numControl = function(event) {
-  // Проверяет ввод цифр и добавляет предупреждение
+AppData.prototype.numControl = function(event) {
+// Проверяет ввод цифр и добавляет предупреждение
   const curVal = event.target.value;
   if (curVal.match(/[^0-9]/g)) {
     event.target.value = curVal.replace(/[^0-9]/g, "");
@@ -339,8 +310,8 @@ const numControl = function(event) {
     }
   }
 };
-const charControl = function(event) {
-  // Проверяет ввод букв и добавляет предупреждение
+AppData.prototype.charControl = function(event) {
+// Проверяет ввод букв и добавляет предупреждение
   const curVal = event.target.value;
   if (curVal.match(/[^А-Яа-яЁё ,\.-]/g)) {
     event.target.value = curVal.replace(/[^А-Яа-яЁё ,\.-]/g, "");
@@ -355,14 +326,14 @@ const charControl = function(event) {
     }
   }
 };
-const removeWarning = function(event) {
-  // Удаление предупреждениея о допустимости использования
-  // только определенных символов
+AppData.prototype.removeWarning = function(event) {
+// Удаление предупреждениея о допустимости использования
+// только определенных символов
   const oldWarn = event.target.parentNode.querySelector("div#warning");
   if (oldWarn) { oldWarn.remove(); }
 };
-
-const addListenerControl = function(elems) {
+AppData.prototype.addListenerControl = function(elems) {
+  const _this = this;
   let it;
   if ("forEach" in elems) {
     it = elems;
@@ -371,15 +342,43 @@ const addListenerControl = function(elems) {
   }
   it.forEach(function(item){
     if (item.placeholder === "Наименование") {
-      item.addEventListener("input", charControl);
+      item.addEventListener("input", _this.charControl);
     } else if (item.placeholder === "Сумма") {
-      item.addEventListener("input", numControl);
+      item.addEventListener("input", _this.numControl);
     }
-    item.addEventListener("blur", removeWarning);
+    item.addEventListener("blur", _this.removeWarning);
   });
 };
+AppData.prototype.eventListener = function() {
 
-addListenerControl(document.querySelectorAll("input[type='text']"));
+  btnStartCalc.addEventListener("click", this.start.bind(this));
+  btnReset.addEventListener("click", this.reset.bind(this));
+
+  btnPlus2.addEventListener("click", this.addExpensesBlock.bind(this));
+  btnPlus1.addEventListener("click", this.addIncomeBlock.bind(this));
+
+  // Изменение подписи под ползунком
+  inputPeriodSelect.addEventListener("input", function(event) {
+    divTitlePeriodAmount.textContent = event.target.value;
+  });
+
+  // Активация/Деактивация кнопки "Рассчитать"
+  const bindToggleDisableStart = this.toggleDisableStart.bind(this);
+  this.toggleDisableStart(true);
+  inputSalaryAmount.addEventListener('input', function(event) {
+    bindToggleDisableStart(event.target.value.trim().length === 0);
+  });
+
+  // Листнеры на поля ввода типа "текст"
+  this.addListenerControl(document.querySelectorAll("input[type='text']"));
+
+};
+
+
+// Создание объекта и запуск метода для навешивания слушателей
+const appData = new AppData();
+appData.eventListener();
+
 
 
 
