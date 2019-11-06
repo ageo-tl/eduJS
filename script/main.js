@@ -365,7 +365,7 @@ AppData.prototype.eventListener = function() {
   // Активация/Деактивация кнопки "Рассчитать"
   const bindToggleDisableStart = this.toggleDisableStart.bind(this);
   this.toggleDisableStart(true);
-  inputSalaryAmount.addEventListener('input', function(event) {
+  inputSalaryAmount.addEventListener('change', function(event) {
     bindToggleDisableStart(event.target.value.trim().length === 0);
   });
 
