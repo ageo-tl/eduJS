@@ -28,7 +28,10 @@ const btnStartCalc = document.getElementById("start"),
       inputTargetAmount = document.querySelector("input.target-amount"),
       inputPeriodSelect = document.querySelector("input.period-select"),
       divTitlePeriodAmount = document.querySelector("div.title.period-amount"),
-      btnReset = document.getElementById("cancel");
+      btnReset = document.getElementById("cancel"),
+      inputDepositBank = document.querySelector(".deposit-bank"),
+      inputDepositAmount = document.querySelector(".deposit-amount"),
+      inputDepositPercent = document.querySelector(".deposit-percent");
 
 let expensesItems = document.querySelectorAll(".expenses-items");
 let incomeItems = document.querySelectorAll(".income-items");
@@ -76,6 +79,7 @@ AppData.prototype.start = function() {
   this.getExpensesMonth();
   this.getAddExpenses();
   this.getAddIncome();
+  this.getInfoDeposit();
   this.getBudget();
 
   // Размещение данных в полях области с результатом
@@ -239,7 +243,9 @@ AppData.prototype.getExpensesMonth = function() {
 };
 AppData.prototype.getBudget = function() {
 // считает бюджеты за месяц и за день
-  this.budgetMonth = this.budget + this.incomeMonth - this.expensesMonth;
+  this.budgetMonth = this.budget + this.incomeMonth -
+                     this.expensesMonth +
+                     (this.moneyDeposit * this.percentDeposit / 12);
   this.budgetDay = this.budgetMonth / 30;
 };
 AppData.prototype.getTargetMonth = function() {
@@ -267,10 +273,9 @@ AppData.prototype.getStatusIncome = function() {
   }
 };
 AppData.prototype.getInfoDeposit = function() {
-  this.deposit = confirm("Есть ли у вас депозит в банке?");
   if (this.deposit) {
-    this.percentDeposit = requestNumber("Какой годовой процент у депозита?", 10);
-    this.moneyDeposit = requestNumber("Какая сумма находится на депозите?", 10000);
+    this.percentDeposit = +inputDepositPercent.value;
+    this.moneyDeposit = +inputDepositAmount.value;
   }
 };
 AppData.prototype.calcSavedMoney = function() {
@@ -349,6 +354,32 @@ AppData.prototype.addListenerControl = function(elems) {
     item.addEventListener("blur", _this.removeWarning);
   });
 };
+AppData.prototype.listenerDeposit = function() {
+// Листнер для работы со всеми элементам блока с депозитом
+  if (chkDeposit.checked) {
+    inputDepositBank.style.display = "inline-block";
+    inputDepositAmount.style.display = "inline-block";
+    this.deposit = true;
+    inputDepositBank.addEventListener("change", function() {
+      // Листнер для работы с процентами
+      const selIndex = this.options[this.selectedIndex].value;
+      if (selIndex === "other") {
+        inputDepositPercent.style.display = "inline-block";
+        inputDepositPercent.removeAttribute("disabled");
+        inputDepositPercent.value = "";
+      } else {
+        inputDepositPercent.style.display = "none";
+        inputDepositPercent.setAttribute("disabled", "disabled");
+        inputDepositPercent.value = selIndex;
+      }
+    });
+  } else {
+    inputDepositBank.style.display = "none";
+    inputDepositAmount.style.display = "none";
+    inputDepositAmount.value = "";
+    this.deposit = false;
+  }
+};
 AppData.prototype.eventListener = function() {
 
   btnStartCalc.addEventListener("click", this.start.bind(this));
@@ -371,6 +402,9 @@ AppData.prototype.eventListener = function() {
 
   // Листнеры на поля ввода типа "текст"
   this.addListenerControl(document.querySelectorAll("input[type='text']"));
+
+  chkDeposit.addEventListener("change", this.listenerDeposit.bind(this));
+
 
 };
 
