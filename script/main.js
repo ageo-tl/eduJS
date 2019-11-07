@@ -29,9 +29,10 @@ const btnStartCalc = document.getElementById("start"),
       inputPeriodSelect = document.querySelector("input.period-select"),
       divTitlePeriodAmount = document.querySelector("div.title.period-amount"),
       btnReset = document.getElementById("cancel"),
-      inputDepositBank = document.querySelector(".deposit-bank"),
+      selectDepositBank = document.querySelector(".deposit-bank"),
       inputDepositAmount = document.querySelector(".deposit-amount"),
-      inputDepositPercent = document.querySelector(".deposit-percent");
+      inputDepositPercent = document.querySelector(".deposit-percent"),
+      spanCheckDeposit = document.querySelector("span.deposit-checkmark");
 
 let expensesItems = document.querySelectorAll(".expenses-items");
 let incomeItems = document.querySelectorAll(".income-items");
@@ -67,6 +68,10 @@ AppData.prototype.start = function() {
     .forEach(function(elem) {
       elem.disabled = true;
     });
+  selectDepositBank.disabled = true;
+  selectDepositBank.style.backgroundColor = "lightgray";
+  chkDeposit.disabled = true;
+  spanCheckDeposit.style.backgroundColor = "lightgray";
 
   // Скрытие кнопки "Рассчитать" и отображение "Сбросить"
   btnStartCalc.style.display = "none";
@@ -105,6 +110,15 @@ AppData.prototype.reset = function() {
       elem.disabled = false;
       elem.value = "";
     });
+  selectDepositBank.disabled = false;
+  selectDepositBank.style.backgroundColor = "#ff7f63";
+  selectDepositBank.style.display = "none";
+  selectDepositBank.value = "0";
+  inputDepositAmount.style.display = "none";
+  inputDepositPercent.style.display = "none";
+  chkDeposit.checked = false;
+  chkDeposit.disabled = false;
+  spanCheckDeposit.style.backgroundColor = "#ff7f63";
 
   // Блокировка кнопки "Рассчитать"
   this.toggleDisableStart(true);
@@ -302,8 +316,8 @@ AppData.prototype.toggleDisableStart = function(off) {
 AppData.prototype.numControl = function(event) {
 // Проверяет ввод цифр и добавляет предупреждение
   const curVal = event.target.value;
-  if (curVal.match(/[^0-9]/g)) {
-    event.target.value = curVal.replace(/[^0-9]/g, "");
+  if (curVal.match(/[^\.0-9]/g)) {
+    event.target.value = curVal.replace(/[^\.0-9]/g, "");
     const oldWarn = event.target.parentNode.querySelector("div#warning");
     if (!oldWarn) {
       const warning = document.createElement("div");
@@ -348,7 +362,7 @@ AppData.prototype.addListenerControl = function(elems) {
   it.forEach(function(item){
     if (item.placeholder === "Наименование") {
       item.addEventListener("input", _this.charControl);
-    } else if (item.placeholder === "Сумма") {
+    } else if (item.placeholder === "Сумма" || item.placeholder === "Процент") {
       item.addEventListener("input", _this.numControl);
     }
     item.addEventListener("blur", _this.removeWarning);
@@ -357,10 +371,10 @@ AppData.prototype.addListenerControl = function(elems) {
 AppData.prototype.listenerDeposit = function() {
 // Листнер для работы со всеми элементам блока с депозитом
   if (chkDeposit.checked) {
-    inputDepositBank.style.display = "inline-block";
+    selectDepositBank.style.display = "inline-block";
     inputDepositAmount.style.display = "inline-block";
     this.deposit = true;
-    inputDepositBank.addEventListener("change", function() {
+    selectDepositBank.addEventListener("change", function() {
       // Листнер для работы с процентами
       const selIndex = this.options[this.selectedIndex].value;
       if (selIndex === "other") {
@@ -374,9 +388,10 @@ AppData.prototype.listenerDeposit = function() {
       }
     });
   } else {
-    inputDepositBank.style.display = "none";
+    selectDepositBank.style.display = "none";
     inputDepositAmount.style.display = "none";
     inputDepositAmount.value = "";
+    inputDepositPercent.style.display = "none";
     this.deposit = false;
   }
 };
