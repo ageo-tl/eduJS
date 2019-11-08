@@ -72,6 +72,10 @@ AppData.prototype.start = function() {
   selectDepositBank.style.backgroundColor = "lightgray";
   chkDeposit.disabled = true;
   spanCheckDeposit.style.backgroundColor = "lightgray";
+  btnPlus1.disabled = true;
+  btnPlus1.style.backgroundColor = "lightgray";
+  btnPlus2.disabled = true;
+  btnPlus2.style.backgroundColor = "lightgray";
 
   // Скрытие кнопки "Рассчитать" и отображение "Сбросить"
   btnStartCalc.style.display = "none";
@@ -119,6 +123,10 @@ AppData.prototype.reset = function() {
   chkDeposit.checked = false;
   chkDeposit.disabled = false;
   spanCheckDeposit.style.backgroundColor = "#ff7f63";
+  btnPlus1.disabled = false;
+  btnPlus1.style.backgroundColor = "#ff7f63";
+  btnPlus2.disabled = false;
+  btnPlus2.style.backgroundColor = "#ff7f63";
 
   // Блокировка кнопки "Рассчитать"
   this.toggleDisableStart(true);
