@@ -23,7 +23,6 @@ const btnStartCalc = document.getElementById("start"),
       // Получить оставшиеся поля через querySelector каждый в отдельную переменную
       // (Инпуты с левой стороны не забудьте про range)
       inputSalaryAmount = document.querySelector("input.salary-amount"),
-      inputExpensesTitle = document.querySelector("input.expenses-title"),
       inputAddExpensesItem = document.querySelector("input.additional_expenses-item"),
       inputTargetAmount = document.querySelector("input.target-amount"),
       inputPeriodSelect = document.querySelector("input.period-select"),
@@ -36,10 +35,6 @@ const btnStartCalc = document.getElementById("start"),
 
 let expensesItems = document.querySelectorAll(".expenses-items");
 let incomeItems = document.querySelectorAll(".income-items");
-
-
-
-const USERFRIENDLY = true;
 
 
 
@@ -171,7 +166,7 @@ AppData.prototype.showResult = function(listener = true) {
 };
 AppData.prototype.addExpensesBlock = function() {
 // Добавление строки для ввода обязательных расходов
-  let cloneExpensesItem = expensesItems[0].cloneNode(true);
+  const cloneExpensesItem = expensesItems[0].cloneNode(true);
   const cloneExpensesItemInputs =
       cloneExpensesItem.querySelectorAll("input");
   cloneExpensesItemInputs.forEach( (elem) => {
@@ -189,7 +184,7 @@ AppData.prototype.addExpensesBlock = function() {
 };
 AppData.prototype.addIncomeBlock = function() {
 // Добавление строки для ввода дополнительных доходов
-  let cloneIncomeItem = incomeItems[0].cloneNode(true);
+  const cloneIncomeItem = incomeItems[0].cloneNode(true);
   const cloneIncomeItemInputs = cloneIncomeItem.querySelectorAll("input");
   cloneIncomeItemInputs.forEach( (elem) => {
     elem.value = "";
@@ -232,7 +227,7 @@ AppData.prototype.getIncome = function() {
 };
 AppData.prototype.getAddExpenses = function() {
 // Список возможных расходов
-  let addExpenses = inputAddExpensesItem.value.split(",");
+  const addExpenses = inputAddExpensesItem.value.split(",");
 
   addExpenses.forEach( (item) => {
     item = item.trim();
@@ -244,7 +239,7 @@ AppData.prototype.getAddExpenses = function() {
 AppData.prototype.getAddIncome = function() {
 // Список возможных доходов
   inputAddIncomeItem.forEach( (item) => {
-    let itemVal = item.value.trim();
+    const itemVal = item.value.trim();
     if (itemVal.length !== 0) {
       this.addIncome.push(itemVal);
     }
